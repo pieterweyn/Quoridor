@@ -181,3 +181,8 @@ if __name__ == "__main__":
     Pieter.move("up")
     Rune.move("up")
     Pieter.move("right")
+
+"""
+Hello World
+Hi there
+"""
