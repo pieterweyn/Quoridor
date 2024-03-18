@@ -122,8 +122,8 @@ class Quoridor:
     def wall(self, player: Player, x: int, y: int, vertical: bool):
         """
         :param player: the player placing the wall
-        :param x: x-coord of right corner of the 4 nodes that determine a wall
-        :param y: y-coord of right corner of the 4 nodes that determine a wall
+        :param x: x-coord of top left corner of the 4 nodes that determine a wall
+        :param y: y-coord of top left corner of the 4 nodes that determine a wall
         :param vertical: wall is standing vertical in the perspective of the two players
         :return: 
         """
