@@ -15,6 +15,7 @@ class Player:
         self.nrwalls = None
         self.opponent = None
         self.started = None
+        self.jumping = False
 
     def move(self, direction: Union[str, Tuple[int, int]]):
         if isinstance(direction, str):
@@ -49,8 +50,6 @@ class Player:
             print(f"{self.name}, you cannot move off the board")
         elif self.pos == goal:
             print(f"{self.name}, you're already standing on that tile")
-        elif self.opponent.pos == goal:
-            print(f" {self.name}, {self.opponent.name} is already on that tile")
         elif not self.game.board.has_edge(self.pos, goal):
             print(f"{self.name}, those tiles are not (directly) connected")
         else:
@@ -68,6 +67,8 @@ class Player:
             print(f"{self.name}, you cannot place a wall outside of the board")
         elif goal in self.game.walls:
             print(f"{self.name}, there's already a wall there")
+        elif self.jumping:
+            print(f"{self.name}, you can't place a wall since you're jumping over the opponent")
         else:
             p1_free = False
             p2_free = False
@@ -76,7 +77,7 @@ class Player:
                     p1_free = True
                 if nx.has_path(self.game.board, self.game.p2.pos, (i, 0)):
                     p2_free = True
-            if not p1_free and p2_free:
+            if not (p1_free and p2_free):
                 print(
                     f"{self.name}, placing a wall there is not allowed, because you would block {self.opponent} and/or yourself")
 
@@ -114,11 +115,15 @@ class Quoridor:
 
     def move(self, player: Player, x: int, y: int):
         player.pos = (x, y)
-        player.turn = False
-        player.opponent.turn = True
-        print(f"Move from {player.name} succesful")
-        self.show()
-
+        if player.opponent.pos == (x, y):
+            player.jumping = True
+            print(f"Move from {player.name} succesful and you can move once more since you will jump over the opponent")
+            self.show()
+        else:
+            player.turn = False
+            player.opponent.turn = True
+            print(f"Move from {player.name} succesful")
+            self.show()
     def wall(self, player: Player, x: int, y: int, vertical: bool):
         """
         :param player: the player placing the wall
