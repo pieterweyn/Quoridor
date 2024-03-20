@@ -5,7 +5,7 @@ import networkx as nx
 from matplotlib import pyplot as plt
 from typing import Union, Tuple
 
-
+# Dit is een test
 class Player:
     def __init__(self, name: str):
         self.name = name
